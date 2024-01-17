@@ -20,7 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('restricted-path/', admin.site.urls),
     path('rongry/', include('rongry.urls')),
-    path('user/',include ('user.urls')),
+    path('user/', include ('user.urls')),
 
     path('api/auth/login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
