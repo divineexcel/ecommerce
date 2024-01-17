@@ -2,3 +2,4 @@
 */migrations/0*
 __pycache__/
 .idea/*
+.env
