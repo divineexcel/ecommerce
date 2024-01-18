@@ -17,8 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from account.views.auth_view import LoginView, RegistrationView
+
 urlpatterns = [
-    path('restricted-path/', admin.site.urls),
-    path('auth/', include('commerce.routes.auth_url')),
-    path('users/', include('commerce.routes.users_url')),
+    path('login/', LoginView.as_view()),
+    path('register/', RegistrationView.as_view()),
+    # path('logout/', LogoutView.as_view()),
+    # path('password/request-reset/', RequestResetPasswordView.as_view()),
+    # path('password/reset-password/', ResetPasswordView.as_view()),
 ]
+

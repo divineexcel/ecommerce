@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('restricted-path/', admin.site.urls),
-    path('auth/', include('commerce.routes.auth_url')),
-    path('users/', include('commerce.routes.users_url')),
+    path('', ListOrCreateUserView.as_view()),
+    path('<str:username>', RetrieveUpdateOrDeleteUserView.as_view()),
 ]
+
