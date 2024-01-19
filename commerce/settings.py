@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL='account.User'
 
 # Application definition
 
@@ -42,8 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'account',
     'rongry',
-    'user',
 ]
 
 MIDDLEWARE = [
@@ -91,8 +92,6 @@ DATABASES = {
     }
 }
 
-print(DATABASES['default'])
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -136,7 +135,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTH_USER_MODEL='user.User'
 
 if DEBUG:
     EMAIL_HOST = 'localhost'

@@ -57,3 +57,9 @@ class RegisterResponseSerializer(serializers.Serializer):
     message = serializers.CharField()
     email = serializers.CharField()
 
+
+class LogoutSerializer(serializers.Serializer):
+    refresh_token= serializers.CharField()
+    
+
+

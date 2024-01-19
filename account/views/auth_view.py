@@ -1,6 +1,6 @@
 from rest_framework.generics import CreateAPIView
 
-from account.serializers import LoginSerializer, LoginResponseSerializer, RegisterSerializer, RegisterResponseSerializer
+from account.serializers import LoginSerializer, LoginResponseSerializer, RegisterSerializer, RegisterResponseSerializer,LogoutSerializer
 from services.auth_service import AuthService
 from services.response_service import ResponseService
 
@@ -54,3 +54,26 @@ class RegistrationView(CreateAPIView, ResponseService):
 
         else:
             return self.send_validation_error(serializer.errors)
+        
+
+
+
+class Logoutview(CreateAPIView, ResponseService):
+    serializer_class = LogoutSerializer
+
+    def post(self, request):
+        service = AuthService(request)
+
+        serializer = self.serializer_class(request.data)
+    
+        if serializer.is_valid():
+            data = service.logout(
+                serializer.validated_data
+            )
+
+            return data
+        else:
+            return self.send_validation_error(serializer.errors) 
+
+
+

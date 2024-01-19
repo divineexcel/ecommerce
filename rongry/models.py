@@ -2,7 +2,7 @@
 from django.db import models
 
 # rom commerce.user.serializers import UserRegistrationSerializerf
-from django.contrib.auth.models import User, AbstractUser
+from account.models import User
 
 
 class Category(models.Model):
@@ -35,8 +35,8 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
     thumbnail = models.ImageField( null=True, blank=True,)
-    categories = models.ManyToManyField(Category, null=True, blank= True)
-    owner = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE, null=True, blank=True)
+    categories = models.ManyToManyField(Category, blank=True)
+    owner = models.ForeignKey("account.User", related_name='posts', on_delete=models.CASCADE, null=True, blank=True)
 
  
     def __str__(self):

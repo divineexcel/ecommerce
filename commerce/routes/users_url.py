@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', ListOrCreateUserView.as_view()),
-    path('<str:username>', RetrieveUpdateOrDeleteUserView.as_view()),
+    # path('', ListOrCreateUserView.as_view()),
+    # path('<str:username>', RetrieveUpdateOrDeleteUserView.as_view()),
 ]
 

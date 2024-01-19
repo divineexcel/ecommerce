@@ -33,12 +33,17 @@ class AuthService(BaseService):
         if not user.is_active:
             return None, self.make_error("Account is currently not active, contact admin.")
 
+        tokens = self.create_token(user)
+        access_token = tokens.get('access_token')
+        refresh_token = tokens.get('refresh_token')
+
         data = {
             "user": user,
             "user_type": user.user_type,
             "username": user.username,
             "full_name": user.get_full_name(),
-            "access_token": self.create_token(user),
+            "access_token": access_token,
+            "refresh_token": refresh_token
         }
 
         return data, None
@@ -93,4 +98,19 @@ class AuthService(BaseService):
 
     def create_token(self, user):
         token = RefreshToken.for_user(user)
-        return str(token.access_token)
+        return {
+            "refresh_token" : str(token),
+            "access_token" : str(token.access_token)
+        }
+    
+    def logout(self, payload):
+        refresh_token = payload.get("refresh_token")
+
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+
+        response = {
+            "message": "Successful"
+        }
+
+        return response
