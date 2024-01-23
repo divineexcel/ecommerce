@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from account.views.users_view import ListOrCreateUsersApiView
+
 urlpatterns = [
-    # path('', ListOrCreateUserView.as_view()),
-    # path('<str:username>', RetrieveUpdateOrDeleteUserView.as_view()),
+    path('', ListOrCreateUsersApiView.as_view()),
+    path('<str:username>/', RetrieveUpdateOrDeleteUserApiView.as_view()),
 ]
 

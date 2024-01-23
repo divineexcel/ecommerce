@@ -78,7 +78,7 @@ class AuthService(BaseService):
         notification.send_activation_email(user)
 
         data = {
-            "message": f"An activation email has been sent to '{user.email}'. Check your mailbox to proceed.",
+            "message": f"An activation email has been sent to '{user.email}'.",
             "email": user.email
         }
 
@@ -99,18 +99,19 @@ class AuthService(BaseService):
     def create_token(self, user):
         token = RefreshToken.for_user(user)
         return {
-            "refresh_token" : str(token),
-            "access_token" : str(token.access_token)
+            "refresh_token": str(token),
+            "access_token": str(token.access_token)
         }
-    
+
     def logout(self, payload):
         refresh_token = payload.get("refresh_token")
+        response, error = None, None
 
-        token = RefreshToken(refresh_token)
-        token.blacklist()
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
 
-        response = {
-            "message": "Successful"
-        }
-
-        return response
+            response = {"message": "Successful"}
+        except Exception as e:
+            error = self.make_error(str(e))
+        return response, error

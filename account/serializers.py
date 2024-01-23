@@ -46,11 +46,11 @@ class LoginResponseSerializer(serializers.Serializer):
     full_name = serializers.CharField()
 
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
+class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         pass
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', "last_name", "first_name"]
 
 
 class RegisterResponseSerializer(serializers.Serializer):
@@ -60,6 +60,9 @@ class RegisterResponseSerializer(serializers.Serializer):
 
 class LogoutSerializer(serializers.Serializer):
     refresh_token= serializers.CharField()
-    
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email', "last_name", "first_name", "user_type"]
