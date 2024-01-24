@@ -46,25 +46,51 @@ class RetrieveUpdateOrDeleteUserApiView(RetrieveUpdateDestroyAPIView, ResponseSe
     authentication_classes = []
     serializer_class = RegisterSerializer
 
-    def post(self, request, *args, **kwargs):
-        service = AuthService(request)
+    def get(self, request, *args, **kwargs):
+        username = kwargs.get("username")
+        service = UserService(request)
+        data, error = service.fetch_single_user(username)
 
-        serializer = self.serializer_class(request.data)
-        if serializer.is_valid():
+        if error:
+            return self.send_bad_request(error) 
+        
+        data = UserSerializer(data).data
 
-            data, error = service.register_user(
-                serializer.validated_data
-            )
+        return self.send_json({
+            "data": data
+        })
 
-            if error:
-                return self.send_bad_request(error)
+    def put(self, request, *args, **kwargs):
+        username = kwargs.get("username")
+        service = UserService(request)
+        data, error = service.update_single_user(username)
 
-            return self.send_json({
-                "data": RegisterResponseSerializer(data).data
-            })
+        if error:
+            return self.send_bad_request(error)
+        
+        data = UserSerializer(data).data
 
-        else:
-            return self.send_validation_error(serializer.errors)
+        return self.send_json({
+            "data": data
+        })
+        
+
+
+
+    def destroy(self, request, *args, **kwargs):
+        username = kwargs.get("username")
+        service = UserService(request)
+        data, error = service. delete_single_user(username)
+
+        if error:
+            return self.send_bad_request(error)
+        
+
+        return  self.send_json({
+            "data": 'Account deleted successfully.'
+        })
+
+   
 
 
 class LogoutView(CreateAPIView, ResponseService):

@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from account.views.users_view import ListOrCreateUsersApiView
+from account.views.users_view import ListOrCreateUsersApiView, RetrieveUpdateOrDeleteUserApiView
 
 urlpatterns = [
     path('', ListOrCreateUsersApiView.as_view()),

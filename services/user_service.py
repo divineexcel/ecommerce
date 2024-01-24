@@ -67,3 +67,39 @@ class UserService(BaseService):
         except Exception as e:
             error = self.make_error(str(e))
         return response, error
+    
+    def fetch_single_user(self, username):
+        user, error = None, None
+        try:
+            user = User.objects.get(username__iexact=username)
+        except User.DoesNotExist:
+            error = self.make_error(f"User '{username}' does not exist")
+        except User.MultipleObjectsReturned:
+            error = self.make_error(f"Invalid result found for '{username}'")
+        except Exception as e:
+            error = self.make_error(str(e))
+        return user, error
+    
+
+    def update_single_user(self, username):
+        user, error = None, None
+        try:
+            user = User.objects.update(username__iexact=username)
+        except User.DoesNotExist:
+            error = self.make_error(f"User '{username}' does not exist")
+        except Exception as e:
+            error = self.make_error(str(e))
+        return user, error
+    
+
+   
+   
+    def delete_single_user(self, username):
+        user, error = None, None
+        try:
+            user = User.objects.delete(username__iexact=username)
+        except User.DoesNotExist:
+            error = self.make_error(f"User '{username}' does not exist")
+        except Exception as e:
+            error = self.make_error(str(e))
+            return user, error
