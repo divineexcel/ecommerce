@@ -12,7 +12,7 @@ from services.notification_service import NotificationService
 
 class AuthService(BaseService):
 
-    def login(self, payload) -> (Any, Any):
+    def login(self, payload) -> (Any,Any): # type: ignore
 
         username = payload.get("username")
         password = payload.get("password")
@@ -48,7 +48,7 @@ class AuthService(BaseService):
 
         return data, None
 
-    def register_user(self, payload, user_type=None) -> (Any, Any):
+    def register_user(self, payload, user_type=None) -> (Any, Any): # type: ignore
 
         if user_type is None:
             user_type = UserTypes.ordinary_user

@@ -15,7 +15,7 @@ class LoginView(CreateAPIView, ResponseService):
     def post(self, request, *args, **kwargs):
         service = AuthService(request)
 
-        serializer = self.serializer_class(request.data)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
 
             data, error = service.login(
@@ -40,7 +40,7 @@ class RegistrationView(CreateAPIView, ResponseService):
     def post(self, request, *args, **kwargs):
         service = AuthService(request)
 
-        serializer = self.serializer_class(request.data)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
 
             data, error = service.register_user(

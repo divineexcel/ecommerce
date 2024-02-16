@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from account.serializers import LoginSerializer, LoginResponseSerializer, RegisterSerializer, \
     RegisterResponseSerializer, LogoutSerializer, UserSerializer, RegisterUserSerializer
+from account.models import User
 from services.auth_service import AuthService
 from services.response_service import ResponseService
 from services.user_service import UserService
@@ -27,7 +28,7 @@ class ListOrCreateUsersApiView(ListCreateAPIView, ResponseService):
     def post(self, request, *args, **kwargs):
         service = UserService(request)
 
-        serializer = self.serializer_class(request.data)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
 
             data, error = service.register_user(
@@ -45,6 +46,8 @@ class RetrieveUpdateOrDeleteUserApiView(RetrieveUpdateDestroyAPIView, ResponseSe
     permission_classes = []
     authentication_classes = []
     serializer_class = RegisterSerializer
+    queryset = User.objects.all()
+    lookup_field = 'username'
 
     def get(self, request, *args, **kwargs):
         username = kwargs.get("username")
@@ -75,12 +78,11 @@ class RetrieveUpdateOrDeleteUserApiView(RetrieveUpdateDestroyAPIView, ResponseSe
         })
         
 
-
-
-    def destroy(self, request, *args, **kwargs):
+    def destory(self, request, *args, **kwargs):
+        # print(request.__dict__)       
         username = kwargs.get("username")
         service = UserService(request)
-        data, error = service. delete_single_user(username)
+        data, error = service.delete_single_user(username)
 
         if error:
             return self.send_bad_request(error)

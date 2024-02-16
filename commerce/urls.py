@@ -21,4 +21,5 @@ urlpatterns = [
     path('restricted-path/', admin.site.urls),
     path('auth/', include('commerce.routes.auth_url')),
     path('users/', include('commerce.routes.users_url')),
+    path('rongry/', include('rongry.urls'))
 ]

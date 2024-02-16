@@ -15,7 +15,7 @@ from services.notification_service import NotificationService
 
 class UserService(BaseService):
 
-    def fetch_users(self, filter_keyword=None, user_type=None) -> (Any, Any):
+    def fetch_users(self, filter_keyword=None, user_type=None) -> (Any, Any): # type: ignore
 
         q = ~Q(pk=self.request.user.pk)
         if filter_keyword:
@@ -31,7 +31,7 @@ class UserService(BaseService):
     def generate_random_password(self):
         return hashlib.sha256(str(time.time()).encode('utf8')).hexdigest()
 
-    def register_user(self, payload) -> (Any, Any):
+    def register_user(self, payload) -> (Any, Any): # type: ignore
         payload["password"] = self.generate_random_password()
         service = AuthService(self.request)
         return service.register_user(payload, UserTypes.internal_user)
