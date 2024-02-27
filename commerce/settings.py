@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL='account.User'
 
 # Application definition
 
@@ -42,8 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'account',
     'rongry',
-    'user',
 ]
 
 MIDDLEWARE = [
@@ -80,8 +81,10 @@ WSGI_APPLICATION = 'commerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+ENABLE_POSTGRES = os.environ.get("ENABLE_POSTGRES", False) in ["true", "TRUE", "True", True]
+
+if ENABLE_POSTGRES:
+    DB = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DATABASE_NAME'),
         'USER': os.environ.get('DATABASE_USER'),
@@ -89,9 +92,15 @@ DATABASES = {
         'HOST': os.environ.get('DATABASE_HOST'),
         'PORT': os.environ.get('DATABASE_PORT')
     }
-}
+else:
+    DB = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 
-print(DATABASES['default'])
+DATABASES = {
+    'default': DB
+}
 
 
 # Password validation
@@ -136,7 +145,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTH_USER_MODEL='user.User'
 
 if DEBUG:
     EMAIL_HOST = 'localhost'
